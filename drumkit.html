@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JS Drum Kit</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+</head>
+<body>
+
+
+  <div class="keys">
+    <div data-key="65" class="key">
+      <kbd>A</kbd>
+      <span class="sound">clap</span>
+    </div>
+    <div data-key="83" class="key">
+      <kbd>S</kbd>
+      <span class="sound">hihat</span>
+    </div>
+    <div data-key="68" class="key">
+      <kbd>D</kbd>
+      <span class="sound">kick</span>
+    </div>
+    <div data-key="70" class="key">
+      <kbd>F</kbd>
+      <span class="sound">openhat</span>
+    </div>
+    <div data-key="71" class="key">
+      <kbd>G</kbd>
+      <span class="sound">boom</span>
+    </div>
+    <div data-key="72" class="key">
+      <kbd>H</kbd>
+      <span class="sound">ride</span>
+    </div>
+    <div data-key="74" class="key">
+      <kbd>J</kbd>
+      <span class="sound">snare</span>
+    </div>
+    <div data-key="75" class="key">
+      <kbd>K</kbd>
+      <span class="sound">tom</span>
+    </div>
+    <div data-key="76" class="key">
+      <kbd>L</kbd>
+      <span class="sound">tink</span>
+    </div>
+  </div>
+
+  <audio data-key="65" src="sounds/clap.wav"></audio>
+  <audio data-key="83" src="sounds/hihat.wav"></audio>
+  <audio data-key="68" src="sounds/kick.wav"></audio>
+  <audio data-key="70" src="sounds/openhat.wav"></audio>
+  <audio data-key="71" src="sounds/boom.wav"></audio>
+  <audio data-key="72" src="sounds/ride.wav"></audio>
+  <audio data-key="74" src="sounds/snare.wav"></audio>
+  <audio data-key="75" src="sounds/tom.wav"></audio>
+  <audio data-key="76" src="sounds/tink.wav"></audio>
+
+<script>
+  document.addEventListener('keydown', function(event){
+    const code = event.keyCode;
+    const audio = document.querySelector(`audio[data-key="${code}"]`); //[] is attribute selector
+    audio.currentTime = 0 //rewind to the start, if play key in succession, calls audio.play for every keydown event
+    audio.play(); 
+
+    const playedKey = document.querySelector(`.key[data-key="${code}"]`); 
+    playedKey.classList.add('playing', 'playing::after'); //add CSS elements of playing when keydown event occurs 
+  });
+
+    const remove = function(event){
+      this.classList.remove('playing', 'playing::after'); //this refers to key that evenlistener is added to in line 76
+    }
+
+    const keys = document.querySelectorAll('.key') // select all the keys
+    keys.forEach(key => key.addEventListener('transitionend', remove)) //have to use forEach because its an array, need to go through whole array and add event listener transitionend(jQuery) on each element
+
+</script>
+
+
+</body>
+</html>
